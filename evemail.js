@@ -148,7 +148,7 @@ String.prototype.cleanup = function() {
                 return;
             }
 
-            $.getJSON("https://esi.tech.ccp.is/verify/",function(data,status,xhr){ characterId=data.CharacterID; });
+            $.getJSON("https://esi.evetech.net/verify/",function(data,status,xhr){ characterId=data.CharacterID; });
 
 
 
@@ -193,7 +193,7 @@ String.prototype.cleanup = function() {
         for (o=0,j=characterIds.length; o < j; o+=chunk) {
             temparray = characterIds.slice(o,o+chunk);
             characters=JSON.stringify(temparray.filter(onlyUnique));
-            $.ajax({url:"https://esi.tech.ccp.is/latest/universe/names/?datasource=tranquility",data:characters,success:function(data,status,xhr){
+            $.ajax({url:"https://esi.evetech.net/latest/universe/names/?datasource=tranquility",data:characters,success:function(data,status,xhr){
                   data.forEach(function(element) {
                           characterlist[element.id]=element.name; 
                   });
@@ -206,7 +206,7 @@ String.prototype.cleanup = function() {
         for (o=0,j=characterIds.length; o < j; o+=chunk) {
             temparray = characterIds.slice(o,o+chunk);
             characters=temparray.filter(onlyUnique).join();
-            $.ajax({url:"https://esi.tech.ccp.is/latest/characters/names/?datasource=tranquility",data:{character_ids:characters},success:function(data,status,xhr){
+            $.ajax({url:"https://esi.evetech.net/latest/characters/names/?datasource=tranquility",data:{character_ids:characters},success:function(data,status,xhr){
                 data.forEach(function(element) {
                    characterlist[element.character_id]=element.character_name; 
                 });
@@ -239,7 +239,7 @@ String.prototype.cleanup = function() {
             lastid="&last_mail_id="+last_mail_id;
         }
 
-        $.getJSON("https://esi.tech.ccp.is/latest/characters/"+characterId+"/mail/?datasource=tranquility"+lastid,function(data,status,xhr) {
+        $.getJSON("https://esi.evetech.net/latest/characters/"+characterId+"/mail/?datasource=tranquility"+lastid,function(data,status,xhr) {
             idlist=[];
             individualLookup=[];
             data.forEach(function(element) {
@@ -296,13 +296,13 @@ String.prototype.cleanup = function() {
     function selectUser() {
         mailtable=$('#mailHeadersTable').DataTable();
 
-        $.getJSON("https://esi.tech.ccp.is/latest/characters/"+characterId+"/mail/labels/?datasource=tranquility",function(data,status,xhr) {
+        $.getJSON("https://esi.evetech.net/latest/characters/"+characterId+"/mail/labels/?datasource=tranquility",function(data,status,xhr) {
             data.labels.forEach(function(element){
                 labels[element.label_id]=element.name;
             });
         });
         
-        $.getJSON("https://esi.tech.ccp.is/latest/characters/"+characterId+"/mail/lists/?datasource=tranquility",function(data,status,xhr) {
+        $.getJSON("https://esi.evetech.net/latest/characters/"+characterId+"/mail/lists/?datasource=tranquility",function(data,status,xhr) {
             data.forEach(function(element){
                 mailingLists[element.mailing_list_id]=element.name;
                 characterlist[element.mailing_list_id]=element.name;
@@ -322,7 +322,7 @@ String.prototype.cleanup = function() {
 
     function displayMail(mailid){
 
-        $.getJSON("https://esi.tech.ccp.is/v1/characters/"+characterId+"/mail/"+mailid+"/",function(data,status,xhr) {
+        $.getJSON("https://esi.evetech.net/v1/characters/"+characterId+"/mail/"+mailid+"/",function(data,status,xhr) {
             idlist=[];
             individualLookup=[];
             data.recipients.forEach(function(element) {
@@ -401,7 +401,7 @@ String.prototype.cleanup = function() {
 
 
 
-        $.ajax({url:"https://esi.tech.ccp.is/v1/characters/"+characterId+"/mail/?datasource=tranquility",data:JSON.stringify(data),success:function(data,status,xhr){
+        $.ajax({url:"https://esi.evetech.net/v1/characters/"+characterId+"/mail/?datasource=tranquility",data:JSON.stringify(data),success:function(data,status,xhr){
             alert("Mail sent Successfully");
         $("#mailentry").hide();
         $("#mailentrytext").val('');
@@ -436,7 +436,7 @@ String.prototype.cleanup = function() {
 
     function findRecipient() {
         charstring=encodeURIComponent($("#nameFragment").val());
-        $.getJSON("https://esi.tech.ccp.is/latest/search/?categories=character&search="+charstring,function(data,status,xhr) {
+        $.getJSON("https://esi.evetech.net/latest/search/?categories=character&search="+charstring,function(data,status,xhr) {
             singleLookup(data.character);
             data.character.forEach(function(element) {
                 $('#selectRecipient').append("<option value='"+element+"'>"+characterlist[element]+"</option>");
