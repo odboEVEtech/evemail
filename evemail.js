@@ -205,12 +205,12 @@ String.prototype.cleanup = function() {
         var o,j,temparray,chunk = 5;
         for (o=0,j=characterIds.length; o < j; o+=chunk) {
             temparray = characterIds.slice(o,o+chunk);
-            characters=temparray.filter(onlyUnique).join();
-            $.ajax({url:"https://esi.evetech.net/latest/characters/names/?datasource=tranquility",data:{character_ids:characters},success:function(data,status,xhr){
+            characters=JSON.stringify(temparray.filter(onlyUnique));
+            $.ajax({url:"https://esi.evetech.net/latest/universe/names/?datasource=tranquility",data:characters,success:function(data,status,xhr){
                 data.forEach(function(element) {
-                   characterlist[element.character_id]=element.character_name; 
+                   characterlist[element.id]=element.name; 
                 });
-            },method:"GET",contentType: 'application/json',async:false});
+            },method:"POST",processData:false,contentType: 'application/json',async:false});
         }
     }
 
